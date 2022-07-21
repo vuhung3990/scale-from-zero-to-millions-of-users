@@ -1,0 +1,21 @@
+# helm install -f mysql-value.yaml  mysql bitnami/mysql
+
+# mysql customize config
+# 1 master 1 slave
+image.debug: true
+
+architecture: replication
+
+auth:
+  database: 'my_database'
+  username: 'hungvu'
+  password: '123456'
+  rootPassword: '123456'
+  createDatabase: true
+  replicationUser: 'hungvu'
+  replicationPassword: '123456'
+
+# grant permission
+# master pod -> terminal
+# mysql -u root -p
+# GRANT REPLICATION SLAVE ON *.* TO 'hungvu'@'%';
