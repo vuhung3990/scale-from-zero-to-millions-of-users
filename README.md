@@ -11,13 +11,7 @@ helm install -f mysql-value.yaml  mysql bitnami/mysql
 # 2. enable nginx ingress
 minikube addons enable ingress
 
-# 3. setup docker sample server
-# local build image for minikube
-eval $(minikube docker-env)
-docker build . -t vuhung3990/sample_node_server
-kubectl run sample_node_server  --image=vuhung3990/sample_node_server:latest --image-pull-policy=Never
+# 3. setup sample server
+kubectl apply -f docker_node_server/node-server-deployment.yaml
+kubectl apply -f docker_node_server/node-server-service.yaml
 
-# test
-docker run -p 49160:3000 -d vuhung3990/sample_node_server
-curl -i localhost:49160
-docker kill <id>

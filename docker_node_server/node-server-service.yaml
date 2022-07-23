@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name:  node-server-service
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: node-server
+  ports:
+    - protocol: TCP
+      port: 3000        # port expose to use on ingress
+      targetPort: 3000  # port used on pod running express server

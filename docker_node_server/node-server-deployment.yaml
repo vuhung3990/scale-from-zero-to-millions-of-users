@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  node-server-deployment
+  namespace: default
+  labels:
+    app:  node-server
+spec:
+  selector:
+    matchLabels:
+      app: node-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app:  node-server
+    spec:
+      # initContainers:
+        # Init containers are exactly like regular containers, except:
+          # - Init containers always run to completion.
+          # - Each init container must complete successfully before the next one starts.
+      containers:
+      - name:  node-server
+        image:  vuhung3990/sample_node_server
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort:  3000
+          name:  node-server
