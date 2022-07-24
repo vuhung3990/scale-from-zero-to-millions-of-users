@@ -1,0 +1,38 @@
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-node-server
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: node-server-deployment
+  minReplicas: 1
+  maxReplicas: 3
+  behavior:
+    scaleDown:
+      # scale down if pod's CPU below 10%
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 10
+        periodSeconds: 5
+      selectPolicy: Max
+    scaleUp:
+      # scale down if pod's CPU above 70%
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Pods
+        value: 2
+        periodSeconds: 5
+      - type: Percent
+        value: 70
+        periodSeconds: 5
+      selectPolicy: Max
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
